@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support — Piwi</title>
+  <meta name="description" content="Get help with Piwi: account, results, leaderboards, privacy and more.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0a060e;
+      --ink-2: #161318;
+      --text: #1a1520;
+      --text-secondary: rgba(10,6,14,0.65);
+      --text-muted: rgba(10,6,14,0.45);
+      --lime: #C6F135;
+      --lime-dim: rgba(198,241,53,0.12);
+      --lime-border: rgba(198,241,53,0.25);
+      --surface: #f8f7fa;
+      --surface-2: #f0eff4;
+      --card: #ffffff;
+      --border: rgba(0,0,0,0.06);
+      --border-strong: rgba(0,0,0,0.10);
+      --radius: 14px;
+      --radius-sm: 8px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--surface);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 15px;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--ink); font-weight: 500; text-decoration: none; border-bottom: 1px solid var(--lime); }
+
+    .header {
+      background: var(--ink);
+      padding: 48px 24px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before {
+      content: '';
+      position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+      background: radial-gradient(circle at 30% 50%, rgba(198,241,53,0.06) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 50%, rgba(198,241,53,0.04) 0%, transparent 40%);
+      pointer-events: none;
+    }
+    .header > * { position: relative; z-index: 1; }
+    .brand-name { font-weight: 800; font-size: 22px; color: #fff; letter-spacing: -0.3px; display: inline-block; margin-bottom: 20px; }
+    .header h1 { font-size: 32px; font-weight: 800; color: #fff; letter-spacing: -0.5px; line-height: 1.2; }
+    .header .subtitle { color: rgba(255,255,255,0.55); font-size: 14px; margin-top: 8px; }
+    .accent-line { width: 40px; height: 3px; background: var(--lime); border-radius: 2px; margin: 20px auto 0; }
+
+    .content { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
+    .section { margin-bottom: 44px; }
+
+    h2 { font-size: 18px; font-weight: 700; color: var(--ink); margin-bottom: 16px; letter-spacing: -0.2px; display: flex; align-items: center; }
+    .num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; margin-right: 10px; flex-shrink: 0;
+      background: var(--lime-dim); border: 1px solid var(--lime-border);
+      border-radius: 8px; font-size: 12px; font-weight: 700; color: var(--ink);
+    }
+    p { color: var(--text-secondary); margin-bottom: 14px; }
+
+    /* Contact cards */
+    .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .card {
+      background: var(--card); border: 1px solid var(--border-strong);
+      border-radius: var(--radius); padding: 20px;
+    }
+    .card h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); font-weight: 600; margin-bottom: 8px; }
+    .card .big { font-size: 15px; font-weight: 600; color: var(--ink); word-break: break-word; }
+    .card p { font-size: 13px; margin: 6px 0 0; }
+
+    .btn {
+      display: inline-block; background: var(--lime); color: var(--ink);
+      font-weight: 700; font-size: 14px; padding: 12px 20px;
+      border-radius: var(--radius-sm); border: none; cursor: pointer;
+      font-family: inherit; text-decoration: none;
+    }
+    .btn:hover { filter: brightness(0.95); }
+
+    /* Topic quick links */
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+    .chip {
+      font-size: 13px; font-weight: 600; padding: 7px 14px; border-radius: 999px;
+      background: var(--card); border: 1px solid var(--border-strong); color: var(--ink);
+      cursor: pointer; font-family: inherit;
+    }
+    .chip:hover, .chip.active { background: var(--lime-dim); border-color: var(--lime-border); }
+
+    /* FAQ */
+    .search {
+      width: 100%; padding: 12px 14px; font-size: 14px; font-family: inherit;
+      border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+      background: var(--card); color: var(--ink); margin-bottom: 14px;
+    }
+    .search:focus, .field:focus { outline: 2px solid var(--lime); outline-offset: 1px; }
+    details {
+      background: var(--card); border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm); margin-bottom: 10px; overflow: hidden;
+    }
+    summary {
+      cursor: pointer; padding: 14px 16px; font-weight: 600; color: var(--ink);
+      list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: '+'; font-size: 20px; font-weight: 500; color: var(--text-muted); flex-shrink: 0; }
+    details[open] summary::after { content: '–'; }
+    details[open] { border-color: var(--lime-border); }
+    .answer { padding: 0 16px 6px; }
+    .answer ol, .answer ul { padding-left: 20px; margin-bottom: 14px; color: var(--text-secondary); }
+    .answer li { margin-bottom: 6px; }
+    .no-results { display: none; text-align: center; color: var(--text-muted); padding: 20px 0; }
+
+    /* Form */
+    .form { background: var(--card); border: 1px solid var(--border-strong); border-radius: var(--radius); padding: 22px; }
+    .form label { display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--ink); margin-bottom: 6px; }
+    .field {
+      width: 100%; padding: 11px 12px; font-size: 14px; font-family: inherit;
+      border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+      background: var(--surface); color: var(--ink); margin-bottom: 16px;
+    }
+    textarea.field { min-height: 120px; resize: vertical; }
+    .hint { font-size: 12px; color: var(--text-muted); margin: -8px 0 16px; }
+
+    .highlight {
+      background: var(--lime-dim); border: 1px solid var(--lime-border);
+      border-radius: var(--radius-sm); padding: 14px 16px; font-size: 14px; color: var(--text-secondary);
+    }
+    .highlight strong { color: var(--ink); }
+
+    .links { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+
+    .footer { border-top: 1px solid var(--border-strong); padding: 32px 24px; text-align: center; background: var(--surface-2); }
+    .footer .name { font-weight: 700; font-size: 15px; color: var(--ink); display: block; margin-bottom: 10px; }
+    .footer p { font-size: 13px; color: var(--text-muted); margin: 0; }
+
+    @media (max-width: 560px) {
+      .cards { grid-template-columns: 1fr; }
+      .header { padding: 36px 20px 32px; }
+      .header h1 { font-size: 26px; }
+      .content { padding: 28px 20px 60px; }
+      h2 { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <span class="brand-name">Piwi</span>
+    <h1>Support</h1>
+    <p class="subtitle">Help for athletes using the Piwi app</p>
+    <div class="accent-line"></div>
+  </header>
+
+  <main class="content">
+
+    <!-- Contact -->
+    <div class="section">
+      <h2><span class="num">1</span>Contact us</h2>
+      <p>Piwi helps endurance athletes discover races, record results and track their race history. If something isn't working or you have a question, we're here to help.</p>
+      <div class="cards">
+        <div class="card">
+          <h3>Email support</h3>
+          <div class="big"><a href="mailto:piwi.support@gmail.com">piwi.support@gmail.com</a></div>
+          <p>We aim to respond within 48 hours.</p>
+        </div>
+        <div class="card">
+          <h3>Safety reports</h3>
+          <div class="big">In-app reporting</div>
+          <p>Reports about users or content reach our moderators, who aim to review each one within 24 hours.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="section" id="faq">
+      <h2><span class="num">2</span>Frequently asked questions</h2>
+
+      <input class="search" id="search" type="search" placeholder="Search help topics…" aria-label="Search help topics">
+      <div class="chips" id="chips">
+        <button class="chip active" data-cat="all">All</button>
+        <button class="chip" data-cat="account">Account</button>
+        <button class="chip" data-cat="results">Results &amp; PRs</button>
+        <button class="chip" data-cat="leaderboard">Leaderboards</button>
+        <button class="chip" data-cat="races">Races</button>
+        <button class="chip" data-cat="privacy">Privacy &amp; safety</button>
+      </div>
+
+      <div id="faq-list">
+
+        <details data-cat="account">
+          <summary>How do I create an account?</summary>
+          <div class="answer">
+            <p>You can sign up with email and password, Google, or Sign in with Apple. You'll be asked for your first and last name, governorate and gender, and you must confirm you're at least 16 years old and accept our Terms and Privacy Policy.</p>
+          </div>
+        </details>
+
+        <details data-cat="account">
+          <summary>I can't sign in or forgot my password</summary>
+          <div class="answer">
+            <p>Check that you're using the same method you signed up with (email, Google or Apple). If you've forgotten your password, use the password reset option on the sign-in screen. If you still can't get in, email us from the address linked to your account and we'll help.</p>
+          </div>
+        </details>
+
+        <details data-cat="account">
+          <summary>Can I use Piwi without an account?</summary>
+          <div class="answer">
+            <p>Yes. Guest Mode lets you browse races and leaderboards without creating an account. To follow races or athletes, add results or build a profile, you'll need to sign up.</p>
+          </div>
+        </details>
+
+        <details data-cat="account">
+          <summary>How do I edit my profile?</summary>
+          <div class="answer">
+            <p>Open the <strong>Profile</strong> tab and go to Settings to update your details, photo and optional social links (Instagram, Facebook, Strava).</p>
+          </div>
+        </details>
+
+        <details data-cat="account privacy">
+          <summary>How do I delete my account?</summary>
+          <div class="answer">
+            <ol>
+              <li>Go to <strong>Settings → Delete Account</strong>.</li>
+              <li>Confirm the deletion.</li>
+            </ol>
+            <p>Your account and personal data are deleted immediately, including your result claims, evidence photos, wishlist, follows, blocks and notifications. If you signed in with Apple, the connection is revoked. Results already published on public leaderboards may be kept in anonymized form that no longer identifies you. You can also request deletion by emailing us.</p>
+          </div>
+        </details>
+
+        <details data-cat="results">
+          <summary>How do I add a race result?</summary>
+          <div class="answer">
+            <ol>
+              <li>Tap <strong>Add Result</strong> on your profile.</li>
+              <li>Search for the race and choose the edition and distance.</li>
+              <li>Enter your finish time, optional bib number, and upload 1–3 proof photos.</li>
+              <li>Submit. An admin will review your claim.</li>
+            </ol>
+            <p>Once approved, you'll get a notification and the result is added to your race history. It's also checked against your personal record for that sport and distance.</p>
+          </div>
+        </details>
+
+        <details data-cat="results">
+          <summary>How long does result approval take, and why was mine rejected?</summary>
+          <div class="answer">
+            <p>Results are reviewed manually by our team. We may ask for more evidence before approving or rejecting a claim. Claims can be rejected if the proof photo doesn't clearly match the race, distance or time, or if the details look inaccurate. Email us if you think a decision was a mistake.</p>
+          </div>
+        </details>
+
+        <details data-cat="results">
+          <summary>Can I edit or delete a result after submitting it?</summary>
+          <div class="answer">
+            <p>Not currently. Results can't be edited or deleted in the app after submission. If you made a mistake, email us with the race, distance and the correction, and we'll help.</p>
+          </div>
+        </details>
+
+        <details data-cat="results">
+          <summary>My PR or race count looks wrong</summary>
+          <div class="answer">
+            <p>PRs are calculated per sport and distance from your <em>approved</em> results only, so a pending claim won't appear yet. If an approved result still looks wrong, email us with the race name and distance.</p>
+          </div>
+        </details>
+
+        <details data-cat="results">
+          <summary>How do I share my result?</summary>
+          <div class="answer">
+            <p>After a result is approved, Piwi can generate a branded result certificate with your name, race, time and ranks that you can share to social platforms.</p>
+          </div>
+        </details>
+
+        <details data-cat="leaderboard privacy">
+          <summary>How do leaderboards work?</summary>
+          <div class="answer">
+            <p>There is a national leaderboard for each sport × distance combination (for example Road 10K or Trail 8K), based on your personal record. You can filter by gender and governorate.</p>
+          </div>
+        </details>
+
+        <details data-cat="leaderboard privacy">
+          <summary>Can I hide my name from the leaderboard?</summary>
+          <div class="answer">
+            <p>Yes. Turn on <strong>Hide on Leaderboard</strong> in Settings. Your name and avatar are hidden and your result appears under a private-user label. Your rank and finish time remain visible.</p>
+          </div>
+        </details>
+
+        <details data-cat="races">
+          <summary>A race's information is missing or wrong</summary>
+          <div class="answer">
+            <p>Race details are added and maintained by the Piwi team and may not reflect last-minute changes. Always confirm dates and registration details with the race organizer. You can email us a correction, or suggest a new race with the details and a source link, and we'll update it.</p>
+          </div>
+        </details>
+
+        <details data-cat="races">
+          <summary>Can I register for races inside Piwi?</summary>
+          <div class="answer">
+            <p>Not yet. Registration still happens with the race organizer. Piwi links out to their registration pages where available.</p>
+          </div>
+        </details>
+
+        <details data-cat="races">
+          <summary>What does following a race do?</summary>
+          <div class="answer">
+            <p>Following a race adds it to <strong>My Races</strong> and notifies you about supported updates, such as when the race-day schedule or bib collection information is published.</p>
+          </div>
+        </details>
+
+        <details data-cat="account">
+          <summary>How do I manage notifications?</summary>
+          <div class="answer">
+            <p>Piwi sends notifications about approved results, new PRs, badges, followers and followed-race updates. You can turn push notifications on or off in the app's Settings, and in your device's system settings. Turning them off clears your push token from our servers.</p>
+          </div>
+        </details>
+
+        <details data-cat="privacy">
+          <summary>How do I report or block another user?</summary>
+          <div class="answer">
+            <p>Open the user's profile and choose <strong>Report</strong> or <strong>Block</strong>. Blocking hides their content from you and yours from them, and you can manage blocked users in Settings. The person you report is not told who reported them.</p>
+          </div>
+        </details>
+
+        <details data-cat="privacy">
+          <summary>What data does Piwi collect and can I turn off analytics?</summary>
+          <div class="answer">
+            <p>We collect the information needed to run your account, results and leaderboards. We don't collect GPS location, contacts or payment information, and we don't track you across other apps or use your data for advertising. You can turn off anonymous analytics in <strong>Settings → Analytics</strong>. See our <a href="privacy.html">Privacy Policy</a> for full details.</p>
+          </div>
+        </details>
+
+        <details data-cat="privacy account">
+          <summary>How do I request a copy of my data or other privacy rights?</summary>
+          <div class="answer">
+            <p>Email <a href="mailto:piwi.support@gmail.com">piwi.support@gmail.com</a> from your account email to request access, portability, restriction, objection or withdrawal of consent. Deletion is available directly in the app.</p>
+          </div>
+        </details>
+
+        <details data-cat="account privacy">
+          <summary>What is the minimum age to use Piwi?</summary>
+          <div class="answer">
+            <p>You must be at least 16 years old. If we learn that a user is under 16, we close the account and delete the associated data.</p>
+          </div>
+        </details>
+
+      </div>
+      <p class="no-results" id="no-results">No matching topics. Try different words, or email us below.</p>
+    </div>
+
+    <!-- Contact form -->
+    <div class="section" id="contact">
+      <h2><span class="num">3</span>Still need help?</h2>
+      <p>Tell us what's going on and we'll open an email draft in your mail app. Include as much detail as you can.</p>
+      <form class="form" id="contact-form">
+        <label for="topic">Topic</label>
+        <select class="field" id="topic">
+          <option>Account or sign-in</option>
+          <option>Result claim or PR</option>
+          <option>Leaderboard</option>
+          <option>Race information correction</option>
+          <option>Report a user or content</option>
+          <option>Privacy or data request</option>
+          <option>Bug or technical issue</option>
+          <option>Other</option>
+        </select>
+
+        <label for="email">Your account email</label>
+        <input class="field" id="email" type="email" placeholder="you@example.com" autocomplete="email">
+
+        <label for="message">Message</label>
+        <textarea class="field" id="message" placeholder="Describe the issue, including the race name and distance if relevant." required></textarea>
+        <p class="hint">For bugs, please mention your iPhone model, iOS version and app version if you can.</p>
+
+        <button type="submit" class="btn">Open email draft</button>
+      </form>
+    </div>
+
+    <!-- Policies -->
+    <div class="section">
+      <h2><span class="num">4</span>Policies</h2>
+      <div class="highlight">
+        <strong>Zero tolerance for abuse.</strong> Hateful, harassing, threatening, sexually explicit or violent content, impersonation and fraudulent result claims aren't allowed on Piwi. We remove violating content and may suspend or terminate accounts.
+      </div>
+      <p style="margin-top:16px;"></p>
+      <div class="links">
+        <a href="terms.html">Terms of Service</a>
+        <a href="privacy.html">Privacy Policy</a>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <span class="name">Piwi</span>
+    <p>Built for endurance athletes in Tunisia and North Africa.</p>
+    <p style="margin-top:4px;">Questions? <a href="mailto:piwi.support@gmail.com">piwi.support@gmail.com</a></p>
+  </footer>
+
+  <script>
+    (function () {
+      var items = Array.prototype.slice.call(document.querySelectorAll('#faq-list details'));
+      var chips = document.querySelectorAll('.chip');
+      var search = document.getElementById('search');
+      var empty = document.getElementById('no-results');
+      var cat = 'all';
+
+      function apply() {
+        var q = search.value.trim().toLowerCase();
+        var shown = 0;
+        items.forEach(function (d) {
+          var cats = d.getAttribute('data-cat').split(' ');
+          var catOk = cat === 'all' || cats.indexOf(cat) !== -1;
+          var textOk = !q || d.textContent.toLowerCase().indexOf(q) !== -1;
+          var show = catOk && textOk;
+          d.style.display = show ? '' : 'none';
+          if (show) shown++;
+        });
+        empty.style.display = shown ? 'none' : 'block';
+      }
+
+      chips.forEach(function (c) {
+        c.addEventListener('click', function () {
+          chips.forEach(function (x) { x.classList.remove('active'); });
+          c.classList.add('active');
+          cat = c.getAttribute('data-cat');
+          apply();
+        });
+      });
+      search.addEventListener('input', apply);
+
+      // Open an FAQ directly via #hash-free deep link: ?q=term
+      var params = new URLSearchParams(window.location.search);
+      if (params.get('q')) { search.value = params.get('q'); apply(); }
+
+      // Contact form -> mailto
+      document.getElementById('contact-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var topic = document.getElementById('topic').value;
+        var email = document.getElementById('email').value.trim();
+        var msg = document.getElementById('message').value.trim();
+        var body = msg + '\n\n---\nAccount email: ' + (email || '(not provided)') +
+                   '\nTopic: ' + topic;
+        window.location.href = 'mailto:piwi.support@gmail.com' +
+          '?subject=' + encodeURIComponent('[Piwi Support] ' + topic) +
+          '&body=' + encodeURIComponent(body);
+      });
+    })();
+  </script>
+</body>
+</html>
